@@ -1,29 +1,56 @@
 # ☎ walk-promise
-| <h4>❁ Overview</h4> |
-| :--- |
-| <br>Recursively find files from a list of paths using promises and return them along with file information. This allows you to easily integrate walk functionality into a project that is already using promises.<br><br> |
-| <h4>❁ Documentation</h4> |
-| <ul><li>See the [`WIKI`](https://github.com/bhoriuchi/walk-promise/wiki) for full documentation</li><li>And the [`Change Log`](https://github.com/bhoriuchi/walk-promise/wiki/Change-Log) for what's new!</li></ul> |
-| <h4>❁ Usage</h4> |
-| `var walk = require('walk-promise');`<br>`walk('/path/to/walk').then(function(files) {`<br>&nbsp;&nbsp;&nbsp;&nbsp;`console.log(files);`<br>`});` |
-| <h4>❁ Output</h4> |
-| [<br>&nbsp;&nbsp;&nbsp;&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**root**: `String` *root path*<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**name**: `String` *file name*<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**stat**: `Object` *file stat object*<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...<br>] |
-| <h4>❁ Examples</h4> |
-##### ☶ Basic example
-Passing a full path as a string to walk
+---
+
+Recursively find files from a list of paths using promises and return them along with file information. This allows you to easily integrate walk functionality into a project that is already using promises
+
+* See the [`WIKI`](https://github.com/bhoriuchi/walk-promise/wiki) for full documentation
+* And the [`Change Log`](https://github.com/bhoriuchi/walk-promise/wiki/Change-Log) for what's new!
+
+---
+
+### Documentation
+
+##### walk(`path`, [`options`])
+Walks one or more directories and returns information on the files in those directories
+
+**`Parameters`**
+* **`path`** `{string | string[]}` - path or array of paths to start walk from
+* **[`options`]** `{Object}` - Options hash
+  * **[`ignore`]** `{string[]}` - Paths to ignore
+
+**`Returns`** `{Promise}` - Returns a Promise that resolves to an array of file information objects
+
+---
+
+### Output
+
+Output is in for form of an array of file info objects. File info objects are composed of the following
+
+`root` - The full path to the file
+`name` - The file name
+`stat` - The file stat object for the file
+
+
+##### Examples
 ```js
 var walk = require('walk-promise');
 
+// single path
 walk('/home/user/documents').then(function(files) {
 	console.log(files);
 });
-```
-##### ☶ With multiple files
-Passing an array containing both full and relative paths
-```js
-var walk = require('walk-promise');
 
+// multiple paths
 walk(['../lib', '/home/user/documents']).then(function(files) {
 	console.log(files);
 });
+
+// multiple paths with ignore
+walk(['../lib', '/home/user/documents'], {
+    ignore: ['/home/user/documents/private']
+})
+.then(function(files) {
+	console.log(files);
+});
+
 ```
